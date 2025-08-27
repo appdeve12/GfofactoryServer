@@ -1,0 +1,365 @@
+{
+	"info": {
+		"_postman_id": "25e6b46b-d2f1-49a0-a8cb-963db45bd505",
+		"name": "FBFSwarehouse",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34662495"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Test\",\r\n    \"email\":\"test@gmail.com\",\r\n    \"password\":\"test@123\",\r\n    \"role\":\"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5050/api/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"test@gmail.com\",\r\n    \"password\":\"test@123\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5050/api/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "StockInward",
+			"item": [
+				{
+					"name": "addstockinward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWM0YjQ2NjUxNDk1OGRiMWY4YzNhZiIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTYxMjE5MzAsImV4cCI6MTc1OTU3NzkzMH0.-9jAGavkwWnQi7QPXaFpcr7OMuDADtxGp5iNeAbcYLI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n  \"material_Name\": \"HDPE Plastic\",\r\n  \"purchase_quantity\": 500,\r\n  \"purchase_date\": \"2025-08-20T00:00:00.000Z\",\r\n  \"supplier\": \"Global Plastics Ltd.\",\r\n  \"file\": [\r\n    \"invoice_hdpe_aug2025.pdf\",\r\n    \"delivery_note_hdpe_aug2025.jpg\"\r\n  ],\r\n  \"remarks\": \"Stock for August batch production\",\r\n  \"user\": \"64f1fef2c8a7b2d65c123456\"\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5050/api/materials/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"materials",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getallstockinward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWM0YjQ2NjUxNDk1OGRiMWY4YzNhZiIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTYxMjE5MzAsImV4cCI6MTc1OTU3NzkzMH0.-9jAGavkwWnQi7QPXaFpcr7OMuDADtxGp5iNeAbcYLI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5050/api/materials/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"materials",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getparticularstock",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWM0YjQ2NjUxNDk1OGRiMWY4YzNhZiIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTYxMjE5MzAsImV4cCI6MTc1OTU3NzkzMH0.-9jAGavkwWnQi7QPXaFpcr7OMuDADtxGp5iNeAbcYLI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5050/api/materials/68ac4c97b09d07d69bc84145",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"materials",
+								"68ac4c97b09d07d69bc84145"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteparticularmaterial",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWM0YjQ2NjUxNDk1OGRiMWY4YzNhZiIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTYxMjE5MzAsImV4cCI6MTc1OTU3NzkzMH0.-9jAGavkwWnQi7QPXaFpcr7OMuDADtxGp5iNeAbcYLI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5050/api/materials/68ac4c97b09d07d69bc84145",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"materials",
+								"68ac4c97b09d07d69bc84145"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateparticularmaterial",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWM0YjQ2NjUxNDk1OGRiMWY4YzNhZiIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTYxMjE5MzAsImV4cCI6MTc1OTU3NzkzMH0.-9jAGavkwWnQi7QPXaFpcr7OMuDADtxGp5iNeAbcYLI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"material_Name\": \"HDPE Plastic\",\r\n  \"purchase_quantity\": 500,\r\n  \"purchase_date\": \"2025-08-20T00:00:00.000Z\",\r\n  \"supplier\": \"Global Plastics Ltd.\",\r\n  \"file\": [\r\n    \"invoice_hdpe_aug2025.pdf\",\r\n    \"delivery_note_hdpe_aug2025.jpg\"\r\n  ],\r\n  \"remarks\": \"Stock for August batch production\",\r\n  \"user\": \"64f1fef2c8a7b2d65c123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5050/api/materials/68ac4c97b09d07d69bc84145",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"materials",
+								"68ac4c97b09d07d69bc84145"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "stockoutward",
+			"item": [
+				{
+					"name": "createStockoutward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWM0YjQ2NjUxNDk1OGRiMWY4YzNhZiIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTYxMjE5MzAsImV4cCI6MTc1OTU3NzkzMH0.-9jAGavkwWnQi7QPXaFpcr7OMuDADtxGp5iNeAbcYLI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"material_Name\":\"HDPE Plastic\",\r\n      \"quantity_used\":\"300\",\r\n      \"purpose\":\"Fire ballbatchj1\",\r\n      \"date\":\"2025-08-25T00:00:00.000Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5050/api/stockoutward/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"stockoutward",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getallstockoutward",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWM0YjQ2NjUxNDk1OGRiMWY4YzNhZiIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTYxMjE5MzAsImV4cCI6MTc1OTU3NzkzMH0.-9jAGavkwWnQi7QPXaFpcr7OMuDADtxGp5iNeAbcYLI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5050/api/stockoutward/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"stockoutward",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dashboardstats",
+			"item": [
+				{
+					"name": "dashboard",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YWM0YjQ2NjUxNDk1OGRiMWY4YzNhZiIsImVtYWlsIjoidGVzdEBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTYxMjE5MzAsImV4cCI6MTc1OTU3NzkzMH0.-9jAGavkwWnQi7QPXaFpcr7OMuDADtxGp5iNeAbcYLI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5050/api/stock/autostock",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"stock",
+								"autostock"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
