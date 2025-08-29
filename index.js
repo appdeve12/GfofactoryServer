@@ -7,6 +7,8 @@ dotenv.config()
 const mongoose=require("mongoose");
 mongoose.connect(process.env.MONGO_URL)
 const app=express();
+const fs = require('fs');
+
 app.use(express.json());
 app.use(cors());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -45,6 +47,24 @@ app.post('/upload', upload.single('media'), (req, res) => {
 
   const fileUrl = `/uploads/${req.file.filename}`;
   res.json({ fileUrl, filename: req.file.filename });
+});
+app.delete('/delete/:filename', (req, res) => {
+  const { filename } = req.params;
+  const filePath = path.join(__dirname, 'uploads', filename);
+
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      return res.status(404).json({ message: 'File not found' });
+    }
+
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error deleting file', error: err });
+      }
+
+      res.json({ message: 'File deleted successfully', filename });
+    });
+  });
 });
 
 // Use routes
