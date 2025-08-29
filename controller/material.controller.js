@@ -35,7 +35,7 @@ exports.createMaterialEntry = async (req, res) => {
 exports.getAllMaterials = async (req, res) => {
   try {
     const materials = await Material.find()
-      .populate("user", "name email role")
+      .populate("user", "name email role").populate("material_Name")
       .sort({ createdAt: -1 }); // Optional: Sort by latest first
 
     res.status(200).json({

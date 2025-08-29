@@ -52,6 +52,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/materials", materialRoutes);
 app.use("/api/stockoutward", stockOutwardRoutes);
 app.use("/api/stock", stockRoutes);
+const materialNAMERoutes = require("./routes/materialName.Route");
+app.use("/api/materialsname", materialNAMERoutes);
 const PORT=process.env.PORT;
 app.listen(PORT,(()=>console.log(`server run on the following ${PORT}`)))
 

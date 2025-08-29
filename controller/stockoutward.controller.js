@@ -27,7 +27,7 @@ exports.createStockOutward = async (req, res) => {
 
 exports.getAllStockOutward = async (req, res) => {
   try {
-    const stockOutwardEntries = await StockOutward.find().populate("user", "name email role");
+    const stockOutwardEntries = await StockOutward.find().populate("user", "name email role").populate("material_Name");
     res.status(200).json({
       message: "Stock outward entries fetched successfully",
       stockOutwardEntries,

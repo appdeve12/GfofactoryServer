@@ -2,18 +2,9 @@
 const mongoose = require("mongoose");
 
 const MaterialStockSchema = new mongoose.Schema({
-  material_Name: {
-    type: String,
-    enum: [
-      "MAP 90 Ammonium Phosphate",
-      "HDPE Plastic",
-      "Separation Tube",
-      "Sensor",
-      "Packing & Wrapping Box",
-      "Stand",
-      "Screw",
-      "Wall Plack",
-    ],
+ material_Name: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Material",
     required: true,
   },
   purchase_quantity: { type: Number, required: true },
