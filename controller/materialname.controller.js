@@ -29,6 +29,7 @@ exports.createMaterial = async (req, res) => {
     const material = new Material({
       name: req.body.name,
       description: req.body.description,
+      type:req.body.type
     });
 
     const savedMaterial = await material.save();
@@ -47,6 +48,7 @@ exports.updateMaterial = async (req, res) => {
 
     if (req.body.name != null) material.name = req.body.name;
     if (req.body.description != null) material.description = req.body.description;
+       if (req.body.type != null) material.type = req.body.type;
 
     const updatedMaterial = await material.save();
     res.status(200).json(updatedMaterial);
@@ -54,7 +56,26 @@ exports.updateMaterial = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+exports.updateMaterialLimit = async (req, res) => {
+  try {
+    const material = await Material.findById(req.params.id);
+    if (!material) {
+      return res.status(404).json({ message: "Material not found" });
+    }
 
+    // Check if the 'limit' field is provided in the request
+    if (req.body.limit != null) {
+      material.limit = req.body.limit;
+    } else {
+      return res.status(400).json({ message: "Limit is required to update" });
+    }
+
+    const updatedMaterial = await material.save();
+    res.status(200).json(updatedMaterial);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
 
 exports.deleteMaterial = async (req, res) => {
     console.log(req.params.id)

@@ -8,7 +8,7 @@ const mongoose=require("mongoose");
 mongoose.connect(process.env.MONGO_URL)
 const app=express();
 const fs = require('fs');
-
+const cron = require("node-cron");
 app.use(express.json());
 app.use(cors());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -66,13 +66,41 @@ app.delete('/delete/:filename', (req, res) => {
     });
   });
 });
+app.get("/test-email", async (req, res) => {
+  try {
+    await sendEmail({
+      to: "deepakrathi@gfofire.com",
+      subject: "Test Email from support@gfofire.com",
+      text: "Hello Test, this is a test email from Node.js using Hostinger SMTP.",
+    });
 
+    res.status(200).send("✅ Test email sent to test");
+  } catch (error) {
+    console.error("❌ Error sending email:", error);
+    res.status(500).send("❌ Failed to send email");
+  }
+});
+// cron.schedule("35 10 * * *", async () => {
+//   console.log("run")
+//   try {
+//     await sendEmail({
+//       to: "anshikasinghal109@gmail.com",
+//       subject: "Daily Scheduled Email",
+//       text: "Hello Anshika, this is your scheduled daily email sent at 10:35 AM.",
+//     });
+
+//     console.log("✅ Daily email sent to anshikasinghal109@gmail.com");
+//   } catch (error) {
+//     console.error("❌ Error sending daily email:", error);
+//   }
+// });
 // Use routes
 app.use("/api/users", userRoutes);
 app.use("/api/materials", materialRoutes);
 app.use("/api/stockoutward", stockOutwardRoutes);
 app.use("/api/stock", stockRoutes);
 const materialNAMERoutes = require("./routes/materialName.Route");
+const sendEmail = require("./utils/sendEmail");
 app.use("/api/materialsname", materialNAMERoutes);
 const PORT=process.env.PORT;
 app.listen(PORT,(()=>console.log(`server run on the following ${PORT}`)))

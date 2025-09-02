@@ -7,9 +7,8 @@ exports.createMaterialEntry = async (req, res) => {
     console.log("userId",userId)
     const { material_Name, purchase_quantity, purchase_date, supplier, file, remarks } = req.body;
 
-    // Optional: check if material with same name and date exists (if needed)
-    const alreadyExists = await Material.findOne({ material_Name, purchase_date });
-    if (alreadyExists) return res.status(400).json({ message: "Material already exists for this date" });
+    
+    
 
     const material = new Material({
       material_Name,

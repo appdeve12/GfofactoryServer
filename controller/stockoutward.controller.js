@@ -3,13 +3,14 @@ const StockOutward = require("../modals/StockOutward");
 exports.createStockOutward = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { material_Name, quantity_used, purpose, date } = req.body;
+    const { material_Name, quantity_used, purpose, date ,file} = req.body;
 
     const stockOutward = new StockOutward({
       material_Name,
       quantity_used,
       purpose,
       date,
+      file,
       user: userId,
     });
 

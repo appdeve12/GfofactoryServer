@@ -3,6 +3,7 @@ const router = express.Router();
 const MaterialNameController = require("../controller/materialname.controller");
 const auth = require("../middleware/authmiddleware");
 router.get("/all", auth,MaterialNameController.getAllMaterials);
+router.patch("/:id/limit", MaterialNameController.updateMaterialLimit);
 router.get("/:id",auth, MaterialNameController.getMaterialById);
 router.post("/create",auth, MaterialNameController.createMaterial);
 router.put("/:id",auth, MaterialNameController.updateMaterial);

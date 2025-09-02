@@ -9,6 +9,10 @@ const StockOutwardSchema = new mongoose.Schema({
     required: true,
   },
   quantity_used: { type: Number, required: true },
+  file:  {
+    url: { type: String, required: true },
+    type: { type: String, required: true }
+  },
   purpose: { type: String, required: true },
   date: { type: Date, default: Date.now },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
