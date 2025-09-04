@@ -1,15 +1,25 @@
 const Material = require("../modals/Material");
 
-
 exports.getAllMaterials = async (req, res) => {
   try {
-    const materials = await Material.find();
+    const userId = req.user.id;
+    const userRole = req.user.role;
+
+    let filter = {};
+
+    if (userRole !== "supervisior") {
+      // If not supervisor, show only user's created materials
+      filter.createdBy = userId;
+    }
+
+    const materials = await Material.find(filter)
+      .populate("createdBy", "name email role _id");
+
     res.status(200).json(materials);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 exports.getMaterialById = async (req, res) => {
   try {
@@ -25,11 +35,14 @@ exports.getMaterialById = async (req, res) => {
 
 
 exports.createMaterial = async (req, res) => {
+      const userId = req.user.id;
   try {
     const material = new Material({
       name: req.body.name,
       description: req.body.description,
-      type:req.body.type
+      type:req.body.type,
+      createdBy:userId
+
     });
 
     const savedMaterial = await material.save();

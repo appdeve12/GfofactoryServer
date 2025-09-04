@@ -6,7 +6,7 @@ const authMiddleware = require("../middleware/authmiddleware");
 const authorizeRole = require("../middleware/authorizeRole");
 
 // 1. Register a new user
-router.post("/register", authMiddleware, authorizeRole("supervisor"), UserController.registerUser);  // Ensure 'registerUser' is a valid function
+router.post("/register",UserController.registerUser);  // Ensure 'registerUser' is a valid function
 
 // 2. Login existing user
 router.post("/login", UserController.loginUser);  // Ensure 'loginUser' is a valid function

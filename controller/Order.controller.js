@@ -19,13 +19,13 @@ exports.placeOrder = async (req, res) => {
       materialType,
     } = req.body;
 
-    // Validate material
+    // ✅ Validate material existence
     const material = await Material.findById(materialId);
     if (!material) {
       return res.status(404).json({ success: false, message: "Material not found" });
     }
 
-    // Create new order
+    // ✅ Create new order instance
     const order = new Order({
       material: materialId,
       materialName,
@@ -39,14 +39,14 @@ exports.placeOrder = async (req, res) => {
       cost,
       gstNumber,
       remarks,
-      orderSaved: false,  // initial flags false
+      orderSaved: false,
       emailSent: false,
     });
 
-    // Save order
+    // ✅ Save the order first
     await order.save();
 
-    // Prepare email HTML
+    // ✅ Prepare email content
     const emailHtml = `
       <h3>New Order Placed</h3>
       <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse;">
@@ -73,42 +73,55 @@ exports.placeOrder = async (req, res) => {
       </table>
     `;
 
-    // Send email
+    // ✅ Send order email to supplier
     await sendEmail({
       to: supplierEmail,
       subject: `New Order for ${materialName}`,
       html: emailHtml,
     });
 
-    // Update order flags and save again
+    // ✅ Update order flags
     order.orderSaved = true;
     order.emailSent = true;
     await order.save();
 
-    res.json({ success: true, message: "Order placed and email sent", order });
+    // ✅ Mark material as ordered
+    await Material.findByIdAndUpdate(materialId, { isOrdered: true });
+
+    // ✅ Final response
+    res.json({ success: true, message: "Order placed and email sent successfully", order });
+
   } catch (err) {
     console.error("Error placing order:", err);
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(500).json({ success: false, message: "Server error while placing order" });
   }
 };
-
 exports.getOrdersByMaterial = async (req, res) => {
   try {
     const { materialId } = req.params;
 
-    if (!materialId) {
-      return res.status(400).json({ success: false, message: "MaterialId is required" });
+    // Check if the material exists
+    const material = await Material.findById(materialId);
+    if (!material) {
+      return res.status(404).json({ success: false, message: "Material not found" });
     }
 
-    // Fetch orders by material id, sorted newest first
+    // Find all orders for that material
     const orders = await Order.find({ material: materialId }).sort({ createdAt: -1 });
 
-    return res.json({
+    res.status(200).json({
       success: true,
-      data: orders,
+      material: {
+        id: material._id,
+        name: material.name,
+        type: material.type,
+      },
+      totalOrders: orders.length,
+      orders,
     });
-  } catch (err) {
-    console.error("Error fetching orders by material:", err);
-    return res.status(500).json({ success: false, message: "Server Error" });
+
+  } catch (error) {
+    console.error("Error fetching orders for material:", error);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
