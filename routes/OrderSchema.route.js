@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const OrderSchema=require("../controller/Order.controller")
+const OrderController = require("../controller/Order.controller");
 
 // POST request to place an order
-router.post("/place-order", OrderSchema.placeOrder);
+router.post("/place-order", OrderController.placeOrder);
 
-router.get("/material/:materialId", OrderSchema.getOrdersByMaterial);
+// GET orders by material ID (use param)
+router.get("/material/:materialId", OrderController.getOrdersByMaterial);
 
 module.exports = router;

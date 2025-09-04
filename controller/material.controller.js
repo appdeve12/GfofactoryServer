@@ -213,47 +213,29 @@ exports.getAllMaterials = async (req, res) => {
     });
   }
 };
-exports.getfecthdonematerilaonly=async(req,res)=>{
+
+exports.getDoneMaterialsByUserRole = async (req, res) => {
   try {
+    const userId = req.user.id;           // Logged-in user ID
+    const userRole = req.user.role;       // Logged-in user role
 
+    let filter = { status: "done" };
 
-    const materials = await Material.find({ status: "done" }) // Filter by user
+    if (userRole === "admin") {
+      // Admin: only materials created by this user (admin)
+      filter.user = userId;
+      filter.createdByRole = "admin";
+    }
+    // Supervisors see all 'done' materials
+
+    const materials = await Material.find(filter)
       .populate("user", "name email role")
       .populate("material_Name")
       .sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
-      message: "Materials fetched successfully",
-      materials,
-    });
-  } catch (error) {
-    console.error("Error fetching materials:", error.message);
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      error: error.message,
-    });
-  }
-}
-exports.getDoneMaterialsByAdmin = async (req, res) => {
-  try {
-    const adminId = req.user.id; // logged-in admin's ID
-
-    // Filter materials where status = "done" AND createdByRole = "admin" OR createdBy adminId
-    const materials = await Material.find({ 
-        status: "done",
-        createdByRole: "admin",
-        // अगर आप चाहो कि सिर्फ particular admin की materials आएं
-        // createdBy: adminId 
-    })
-    .populate("user", "name email role")
-    .populate("material_Name")
-    .sort({ createdAt: -1 });
-
-    res.status(200).json({
-      success: true,
-      message: "Materials fetched successfully for admin",
+      message: `Materials fetched successfully for ${userRole}`,
       materials,
     });
   } catch (error) {
@@ -265,7 +247,6 @@ exports.getDoneMaterialsByAdmin = async (req, res) => {
     });
   }
 };
-
 
 
 exports.getMaterialById = async (req, res) => {

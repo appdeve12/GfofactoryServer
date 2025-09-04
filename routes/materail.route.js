@@ -8,7 +8,7 @@ router.post("/create", auth, MaterialController.createMaterialEntry);
 
 // Get all materials
 router.get("/all", auth, MaterialController.getAllMaterials);
-router.get("/alldonematerial", auth, MaterialController.getfecthdonematerilaonly);
+router.get("/alldonematerial", auth, MaterialController.getDoneMaterialsByUserRole);
 
 router.get("/allforsupervisior", auth, MaterialController.getMaterialsForSupervisor);
 
