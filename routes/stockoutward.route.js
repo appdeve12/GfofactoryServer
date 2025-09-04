@@ -8,5 +8,7 @@ router.post("/create", auth, StockOutwardController.createStockOutward);
 
 // Get all stock outward entries
 router.get("/all", auth, StockOutwardController.getAllStockOutward);
+router.get("/alladmin", auth, StockOutwardController.getAllStockperaDMINOutward);
+
 
 module.exports = router;

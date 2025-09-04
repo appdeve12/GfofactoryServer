@@ -16,6 +16,7 @@ const userRoutes = require("./routes/user.route");
 const materialRoutes = require("./routes/materail.route");
 const stockOutwardRoutes = require("./routes/stockoutward.route");
 const stockRoutes = require("./routes/dashboard.route");
+const orderRoutes = require("./routes/OrderSchema.route");
 // ✅ Configure multer storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -99,6 +100,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/materials", materialRoutes);
 app.use("/api/stockoutward", stockOutwardRoutes);
 app.use("/api/stock", stockRoutes);
+app.use("/api/order",orderRoutes)
 const materialNAMERoutes = require("./routes/materialName.Route");
 const sendEmail = require("./utils/sendEmail");
 app.use("/api/materialsname", materialNAMERoutes);
