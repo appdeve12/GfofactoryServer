@@ -125,3 +125,50 @@ exports.getOrdersByMaterial = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+exports.getOrdersByMyMaterials = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const userRole = req.user.role;
+
+    let materialFilter = {};
+
+    // 🔐 Supervisior can see all; others only their materials
+    if (userRole !== "supervisior") {
+      materialFilter.createdBy = userId;
+    }
+
+    // Step 1: Get materials created by user
+    const materials = await Material.find(materialFilter).select("_id");
+    const materialIds = materials.map((m) => m._id);
+
+    if (materialIds.length === 0) {
+      return res.status(200).json({
+        success: true,
+        totalOrders: 0,
+        orders: [],
+      });
+    }
+
+    // Step 2: Get orders linked to those materials
+    const orders = await Order.find({ material: { $in: materialIds } })
+      .sort({ createdAt: -1 })
+      .populate({
+        path: "material",
+        select: "name type createdBy",
+        populate: {
+          path: "createdBy",
+          select: "name email role",
+        },
+      });
+
+    res.status(200).json({
+      success: true,
+      totalOrders: orders.length,
+      orders,
+    });
+
+  } catch (error) {
+    console.error("Error fetching orders by my materials:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
