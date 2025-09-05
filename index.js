@@ -11,6 +11,9 @@ const fs = require('fs');
 const cron = require("node-cron");
 app.use(express.json());
 app.use(cors());
+const os = require('os');
+const numCPUs = os.cpus().length;
+console.log("numCPUs",numCPUs)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const userRoutes = require("./routes/user.route");
 const materialRoutes = require("./routes/materail.route");

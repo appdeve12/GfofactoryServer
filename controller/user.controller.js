@@ -147,7 +147,7 @@ exports.resetAdminPassword = async (req, res) => {
   } catch (error) {
     console.error("Reset Password Error:", error);
     res.status(500).json({ message: "Internal Server Error" });
-  }
+  }  
 };
 exports.adminUpdateAndManagePermission = async (req, res) => {
   try {
@@ -179,3 +179,18 @@ exports.adminUpdateAndManagePermission = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+exports.checkuserblockedornot=async(req,res)=>{
+  try{
+const userID=req.user.id;
+const finduserblockedstatus=await User.findById(userID);
+if(finduserblockedstatus.isBlocked===true){
+  return res.status(200).json({
+    message:"this user is blocked",
+    blocked:true
+  })
+}
+  }catch(error){
+    console.error("checked blocked user");
+    res.status(500).json({message:"Internal Server error"})
+  }
+}

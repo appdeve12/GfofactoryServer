@@ -10,7 +10,7 @@ router.post("/register",UserController.registerUser);  // Ensure 'registerUser' 
 
 // 2. Login existing user
 router.post("/login", UserController.loginUser);  // Ensure 'loginUser' is a valid function
-
+router.get("/checkblockedstatus",authMiddleware,UserController.checkuserblockedornot)
 // 3. View all admin users (for supervisor only)
 router.get("/alladmin", authMiddleware,  UserController.viewAllAdminUsers);  // Ensure 'viewalladminuserdta' is a valid function
 
