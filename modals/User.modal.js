@@ -13,6 +13,7 @@ const UserSchema = new mongoose.Schema({
     default: "admin",
   },
   isBlocked: { type: Boolean, default: false },
+  
 
   created_At: { type: Date, default: Date.now },
 });

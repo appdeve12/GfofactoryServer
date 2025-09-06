@@ -31,6 +31,8 @@ exports.getMaterialHistory = async (req, res) => {
         supplier: stock.supplier,
         cost: stock.cost,
         remarks: stock.remarks,
+        purchase_unit:stock.purchase_unit,
+        cost_unit:stock.cost_unit,
         addedBy: stock.user?.name || "N/A",
         status: stock.status,
       })),
@@ -45,7 +47,8 @@ exports.createMaterialEntry = async (req, res) => {
     console.log("he;p")
     const userId = req.user.id;
     console.log("userId",userId)
-    const { material_Name, purchase_quantity, purchase_date, supplier, file, remarks,cost } = req.body;
+    const { material_Name, purchase_quantity, purchase_date, supplier, file, remarks,cost   ,cost_unit,
+      purchase_unit,} = req.body;
 
    const  createdByRole= req.user.role;
 
@@ -57,6 +60,8 @@ exports.createMaterialEntry = async (req, res) => {
       supplier,
       file,
       remarks,
+      cost_unit,
+      purchase_unit,
       cost,
       user: userId,
             status:"draft",

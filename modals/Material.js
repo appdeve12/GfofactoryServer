@@ -6,8 +6,10 @@ const MaterialSchema = new mongoose.Schema({
   type:{type:String,required:true, enum: ["raw material", "ready material"],},
   description: { type: String }, // optional
     limit: { type: Number }, 
+      limit_unit :{ type: String }, 
   created_At: { type: Date, default: Date.now },
     isOrdered: { type: Boolean, default: false },  // This will track order status
+    isActive: { type: Boolean, default: true },
       createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",

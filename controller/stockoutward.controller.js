@@ -3,7 +3,7 @@ const StockOutward = require("../modals/StockOutward");
 exports.createStockOutward = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { material_Name, quantity_used, purpose, date ,file} = req.body;
+    const { material_Name, quantity_used, purpose, date ,file,quantity_unit} = req.body;
 
     const stockOutward = new StockOutward({
       material_Name,
@@ -11,6 +11,7 @@ exports.createStockOutward = async (req, res) => {
       purpose,
       date,
       file,
+      quantity_unit,
       user: userId,
       status:"pending"
     });
@@ -77,7 +78,9 @@ exports.updateStockOutward = async (req, res) => {
       quantity_used,
       purpose,
       date,
-      file
+      file,
+      quantity_unit
+
     } = req.body;
 
     // Update the StockOutward entry
@@ -89,6 +92,7 @@ exports.updateStockOutward = async (req, res) => {
         purpose,
         date,
         file,
+        quantity_unit,
         user: userId, // Optional: only update if needed
         status:"pending"
       },

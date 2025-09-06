@@ -17,6 +17,8 @@ const MaterialStockSchema = new mongoose.Schema({
     type: { type: String, required: true }
   }
 ],
+purchase_unit:{type:String,required:true},
+cost_unit:{type:String,required:true},
   remarks: { type: String },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   status:{

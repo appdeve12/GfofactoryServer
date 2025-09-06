@@ -8,5 +8,7 @@ router.get("/:id",auth, MaterialNameController.getMaterialById);
 router.post("/create",auth, MaterialNameController.createMaterial);
 router.put("/:id",auth, MaterialNameController.updateMaterial);
 router.delete("/:id",auth, MaterialNameController.deleteMaterial);
+router.post("/toggle-active/:materialId", auth, MaterialNameController.toggleActiveInactivematerial);
+
 
 module.exports = router;

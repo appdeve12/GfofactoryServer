@@ -11,13 +11,17 @@ const StockOutwardSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  quantity_unit:{
+    type:String,
+    required:true
+  },
   file: {
     url: { type: String, required: true },
     type: { type: String, required: true },
   },
   purpose: {
     type: String,
-    required: true,
+   
   },
   date: {
     type: Date,

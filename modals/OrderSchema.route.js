@@ -16,6 +16,10 @@ const OrderSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   orderSaved: { type: Boolean, default: false },    // DB में save flag
   emailSent: { type: Boolean, default: false },     // Email sent flag
+  contactperson:{type:String},
+  companyname:{type:String},
+  quantity_unit:{type:String}
+
 });
 
 module.exports = mongoose.model("Order", OrderSchema);

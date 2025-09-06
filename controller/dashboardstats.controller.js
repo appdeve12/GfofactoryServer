@@ -149,7 +149,7 @@ console.log("userId","userRole",userId,userRole)
     }
 console.log(materialMatch)
     // Get the materials the user has access to
-    const materials = await Material.find(materialMatch).select("_id name type description limit isOrdered");
+    const materials = await Material.find(materialMatch).select("_id name type description limit isOrdered limit_unit");
 console.log("materials",materials)
     const materialIds = materials.map((m) => m._id);
 
@@ -164,6 +164,7 @@ console.log("materials",materials)
         $group: {
           _id: "$material_Name",
           total_stock_in: { $sum: "$purchase_quantity" },
+             purchase_unit: { $first: "$purchase_unit" }
         },
       },
     ]);
@@ -179,20 +180,39 @@ console.log("materials",materials)
         $group: {
           _id: "$material_Name",
           total_stock_out: { $sum: "$quantity_used" },
+           quantity_unit: { $first: "$quantity_unit" }
         },
       },
     ]);
 
     // Convert aggregations to maps for quick lookup
-    const stockInMap = new Map(stockIn.map((item) => [item._id.toString(), item.total_stock_in]));
-    const stockOutMap = new Map(stockOut.map((item) => [item._id.toString(), item.total_stock_out]));
+const stockInMap = new Map(
+  stockIn.map((item) => [
+    item._id.toString(),
+    { total: item.total_stock_in, unit: item.purchase_unit }
+  ])
+);
 
+const stockOutMap = new Map(
+  stockOut.map((item) => [
+    item._id.toString(),
+    { total: item.total_stock_out, unit: item.quantity_unit }
+  ])
+);
+console.log("stockInMap",stockInMap)
+console.log("stockOutMap",stockOutMap)
     // Combine material info + stock calculations
     const stockData = materials.map((material) => {
+      console.log("material",material)
       const idStr = material._id.toString();
       const totalIn = stockInMap.get(idStr) || 0;
       const totalOut = stockOutMap.get(idStr) || 0;
-      const currentStock = totalIn - totalOut;
+   const currentStock = {
+  total: totalIn.total - totalOut.total,
+  unit: totalIn.unit // हमेशा same रहेगा क्योंकि ek material ek hi unit
+};
+
+console.log("Current Stock:", currentStock);
 
       return {
         material_id: material._id,
@@ -203,6 +223,7 @@ console.log("materials",materials)
         total_stock_out: totalOut,
         current_stock: currentStock,
         limit: material.limit || "",
+        limit_unit:material.limit_unit || "",
         isOrdered: material.isOrdered || false,
       };
     });

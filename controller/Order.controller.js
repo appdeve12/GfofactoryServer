@@ -17,6 +17,9 @@ exports.placeOrder = async (req, res) => {
       shippingAddress,
       materialName,
       materialType,
+      quantity_unit,
+      contactperson,
+      companyname
     } = req.body;
 
     // ✅ Validate material existence
@@ -38,7 +41,10 @@ exports.placeOrder = async (req, res) => {
       quantity,
       cost,
       gstNumber,
+      quantity_unit,
       remarks,
+         contactperson,
+      companyname,
       orderSaved: false,
       emailSent: false,
     });
@@ -59,16 +65,21 @@ exports.placeOrder = async (req, res) => {
           <th>Billing Address</th>
           <th>Shipping Address</th>
           <th>Remarks</th>
+          <th> contactperson,
+      </th>
+          <th>companyname</th>
         </tr>
         <tr>
           <td>${materialName}</td>
           <td>${materialType}</td>
-          <td>${quantity}</td>
+          <td>${quantity}${quantity_unit}</td>
           <td>${cost}</td>
           <td>${gstNumber}</td>
           <td>${billingAddress}</td>
           <td>${shippingAddress}</td>
           <td>${remarks}</td>
+          <td>${contactperson}</td>
+       <td> ${companyname}</td>
         </tr>
       </table>
     `;

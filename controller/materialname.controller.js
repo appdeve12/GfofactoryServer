@@ -77,8 +77,11 @@ exports.updateMaterialLimit = async (req, res) => {
     }
 
     // Check if the 'limit' field is provided in the request
-    if (req.body.limit != null) {
+
+    if (req.body.limit != null && req.body.limit_unit !=="") {
       material.limit = req.body.limit;
+      material.limit_unit=req.body.limit_unit
+
     } else {
       return res.status(400).json({ message: "Limit is required to update" });
     }
@@ -101,5 +104,35 @@ exports.deleteMaterial = async (req, res) => {
     res.status(200).json({ message: "Material deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+exports.toggleActiveInactivematerial = async (req, res) => {
+  try {
+    const { materialId } = req.params; // The ID of the admin to block/unblock
+    const { action } = req.body; // Either 'block' or 'unblock'
+
+
+
+    // Find the admin to block/unblock
+    const material = await Material.findById(materialId);
+  
+
+    // Toggle the block status based on the action
+    if (action === "active") {
+      material.isActive = true;
+    } else if (action === "inactive") {
+      material.isActive = false;
+    } else {
+      return res.status(400).json({ message: "Invalid action. Use 'active' or 'inactive'" });
+    }
+
+    await material.save();
+    res.status(200).json({
+      message: `materail has been ${action}ed successfully`,
+     material
+    });
+  } catch (error) {
+    console.error("active/active Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
