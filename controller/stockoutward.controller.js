@@ -1,5 +1,6 @@
 const StockOutward = require("../modals/StockOutward");
-
+const MaterialStock=require("../modals/MaterialStock")
+const cron = require("node-cron");
 exports.createStockOutward = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -189,6 +190,34 @@ exports.requestEditStockOutward = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+cron.schedule("* * * * *", async () => {
+  try {
+    // StockOutward
+    const outwardResult = await StockOutward.updateMany(
+      {
+        status: "pending",
+        createdAt: { $lte: new Date(Date.now() - 10 * 60 * 1000) }
+      },
+      { $set: { status: "done" } }
+    );
+
+    // MaterialStock
+    const stockResult = await MaterialStock.updateMany(
+      {
+        status: "draft",
+        createdAt: { $lte: new Date(Date.now() - 10 * 60 * 1000) }
+      },
+      { $set: { status: "done" } }
+    );
+
+    if (outwardResult.modifiedCount > 0 || stockResult.modifiedCount > 0) {
+      console.log(`✅ Auto-marked done: ${outwardResult.modifiedCount} outward, ${stockResult.modifiedCount} material`);
+    }
+  } catch (err) {
+    console.error("❌ Cron Error:", err);
+  }
+});
+
 exports.requestEditStockOutwardApproved = async (req, res) => {
   try {
     const { id } = req.params;

@@ -11,9 +11,9 @@ const StockOutwardSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  quantity_unit:{
-    type:String,
-    required:true
+  quantity_unit: {
+    type: String,
+    required: true,
   },
   file: {
     url: { type: String, required: true },
@@ -21,7 +21,6 @@ const StockOutwardSchema = new mongoose.Schema({
   },
   purpose: {
     type: String,
-   
   },
   date: {
     type: Date,
@@ -33,9 +32,9 @@ const StockOutwardSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["pending", "approved", "done","pending-approved"],  // aap chahe toh aur bhi states add kar sakte hain
+    enum: ["pending", "approved", "done", "pending-approved"],
     default: "pending",
   },
-});
+}, { timestamps: true });   // ✅ ये line add करो
 
 module.exports = mongoose.model("StockOutward", StockOutwardSchema);
