@@ -21,4 +21,5 @@ router.patch("/request-edit/:id", auth, StockOutwardController.requestEditStockO
 
 // Supervisor approves the edit request (Only when status is 'pending-approved')
 router.patch("/approve-edit-request/:id", auth, StockOutwardController.requestEditStockOutwardApproved);
+router.delete("/:id", auth, StockOutwardController.deleteStockOutward);
 module.exports = router;
