@@ -9,7 +9,7 @@ const MaterialStockSchema = new mongoose.Schema({
   },
   purchase_quantity: { type: Number, required: true },
   purchase_date: { type: Date, required: true },
-  cost: { type: String, required: true },
+  cost: { type: String, },
   supplier: { type: String },
   file: [
     {
@@ -18,7 +18,7 @@ const MaterialStockSchema = new mongoose.Schema({
     }
   ],
   purchase_unit: { type: String, required: true },
-  cost_unit: { type: String, required: true },
+  cost_unit: { type: String},
   remarks: { type: String },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   status: {

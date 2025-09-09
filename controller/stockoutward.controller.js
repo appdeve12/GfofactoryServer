@@ -246,4 +246,24 @@ exports.requestEditStockOutwardApproved = async (req, res) => {
   }
 };
 
+// Delete Stock Outward Entry
+exports.deleteStockOutward = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const stockOutward = await StockOutward.findByIdAndDelete(id);
+
+    if (!stockOutward) {
+      return res.status(404).json({ message: "Stock outward entry not found" });
+    }
+
+    res.status(200).json({
+      message: "Stock outward entry deleted successfully",
+      stockOutward,
+    });
+  } catch (error) {
+    console.error("Delete Stock Outward Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
